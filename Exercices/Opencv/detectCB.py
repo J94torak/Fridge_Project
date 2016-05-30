@@ -4,6 +4,7 @@ import math
 from cmath import sqrt, phase
 from itertools import groupby
 from collections import Counter
+from ctypes.wintypes import DOUBLE
 #from matplotlib import lines
 
 # Load an color image in grayscale
@@ -11,7 +12,7 @@ from collections import Counter
 
 
 
-img = cv2.imread('../../Pictures/code_barre.png')
+img = cv2.imread('../../Pictures/code_barre7.png')
 height, width = img.shape[:2]
 blank_image = np.zeros((height,width,3), np.uint8)
 blank_image2 = np.zeros((height,width,3), np.uint8)
@@ -90,12 +91,43 @@ i=0
 minim=min(diffP)
 print(minim)
 
+print(diffP)
+diffPS=list(diffP)
+diffPS.sort(cmp=None, key=None, reverse=False)
+print(diffPS)
+
+listMax=[len(list(group)) for key, group in groupby(diffPS)]
+print(listMax)
+
+inde=listMax.index(max(listMax))
+
+c=0
+for i in range(inde) :
+    c=c+listMax[i]
+
+vect=diffPS[c+1]
+print(vect)
+i=0
+
+
 dist=[]
 while i<len(diffP):
      dist.append(int(diffP[i]/minim))
      i+=1
     
+print("dist="+str(dist))
+
+i=0
+dist2=[]
+print(diffP)
+while i<len(diffP):
+     dist2.append(int(round(diffP[i]/DOUBLE(vect))))
+     i+=1
+    
 print(dist)
+print(dist2)
+
+dist=dist2
 
 code_barre=[]
 print(sortPoint)
@@ -144,7 +176,8 @@ B=[[0,1,0,0,1,1,1],[0,1,1,0,0,1,1],[0,0,1,1,0,1,1],[0,1,0,0,0,0,1],[0,0,1,1,1,0,
 C=[[1,1,1,0,0,1,0],[1,1,0,0,1,1,0],[1,1,0,1,1,0,0],[1,0,0,0,0,1,0],[1,0,1,1,1,0,0],[1,0,0,1,1,1,0],[1,0,1,0,0,0,0],[1,0,0,0,1,0,0],[1,0,0,1,0,0,0],[1,1,1,0,1,0,0]]
 
 
-cdb=code_barre_reverse
+cdb=code_barre
+print(len(cdb))
 if code_barre_ean13666 ==True :
     partie1=cdb[3:7*6+3]
     partie666=cdb[7*6+3:7*6+8]
@@ -157,11 +190,12 @@ pb=False
 if partie666 !=[0,1,0,1,0] :
     pb=True
 
-partie=partie2
-
+print("partie666="+str(partie666))
+partie=partie1
+bon_sens=True
 i=0
 decryptage=[]
-
+code_pays=""
 while i<len(partie):
     number=partie[i:i+7]
     print(number)
@@ -171,6 +205,7 @@ while i<len(partie):
         if number==A[j] :
             decryptage.append(j)
             find=True
+            code_pays+="A"
             break
         j+=1
     if find == False :
@@ -179,6 +214,7 @@ while i<len(partie):
             if number == B[j] :
                 decryptage.append(j)
                 find=True
+                code_pays+="B"
                 break
             j+=1
     if find == False:
@@ -187,20 +223,94 @@ while i<len(partie):
             if number==C[j] :
                 decryptage.append(j)
                 find=True
+                code_pays+="C"
                 break
             j+=1
     i+=7
 print(decryptage)
-        
-print(diffP)    
+print(code_pays)
+decryptage_partie1=decryptage
+
+if code_pays=="AAAAAA" or code_pays=="BBBBBB" or code_pays=="CCCCCC" :
+    bon_sens=False
     
-    
-    
-    
+premier_chiffre=["AAAAAAA","AABABB","AABBAB","AABBBA","ABAABB","ABBAAB","ABBBAA","ABABAB","ABABBA","ABBABA"]
+
+k=0
+for number in premier_chiffre :
+    if number==code_pays :
+        break
+    k+=1    
+print(k)
+ 
+partie=partie2
+bon_sens=True
+i=0
+decryptage=[]
+code_pays=""
+while i<len(partie):
+    number=partie[i:i+7]
+    print(number)
+    j=0
+    find=False
+    while j < len(A) :
+        if number==A[j] :
+            decryptage.append(j)
+            find=True
+            code_pays+="A"
+            break
+        j+=1
+    if find == False :
+        j=0
+        while j < len(B) :
+            if number == B[j] :
+                decryptage.append(j)
+                find=True
+                code_pays+="B"
+                break
+            j+=1
+    if find == False:
+        j=0
+        while j < len(C) :
+            if number==C[j] :
+                decryptage.append(j)
+                find=True
+                code_pays+="C"
+                break
+            j+=1
+    i+=7
+print(decryptage)
+print(code_pays)
+decryptage_partie2=decryptage 
 
 
+decryptage_total=list([k]+decryptage_partie1+decryptage_partie2)
+decryptage_inverse=list(decryptage_total)
+decryptage_inverse.pop()
+decryptage_inverse.reverse()
+impair=0
+pair=0
 
-    
+print(decryptage_total[len(decryptage_total)-1])
+print(decryptage_inverse)
+l=0
+while l< len(decryptage_inverse) :
+    if l%2==0 :
+        impair+=decryptage_inverse[l]
+        print("decrypatge_impair="+str(decryptage_inverse[l]))
+    else :
+        pair+=decryptage_inverse[l]
+        print("decrypatge_pair="+str(decryptage_inverse[l]))
+    l+=1
+
+print(pair)
+print(impair)
+checksum=(10-((3 * impair + pair)% 10))% 10
+
+print(checksum)
+
+print(decryptage_total)
+
 
 
 #cv2.imwrite('houghlines5.jpg',blank_image)
