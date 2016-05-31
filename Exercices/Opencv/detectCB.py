@@ -12,7 +12,7 @@ from ctypes.wintypes import DOUBLE
 
 
 
-img = cv2.imread('../../Pictures/code_barre7.png')
+img = cv2.imread('../../Pictures/code_barre3.png')
 height, width = img.shape[:2]
 blank_image = np.zeros((height,width,3), np.uint8)
 blank_image2 = np.zeros((height,width,3), np.uint8)
@@ -185,12 +185,10 @@ if code_barre_ean13666 ==True :
     print(partie1)
     print(partie666)
     print(partie2)
-
-pb=False
-if partie666 !=[0,1,0,1,0] :
-    pb=True
-
-print("partie666="+str(partie666))
+    pb=False
+    if partie666 !=[0,1,0,1,0] :
+        pb=True
+    print("partie666="+str(partie666))
 partie=partie1
 bon_sens=True
 i=0
@@ -231,7 +229,7 @@ print(decryptage)
 print(code_pays)
 decryptage_partie1=decryptage
 
-if code_pays=="AAAAAA" or code_pays=="BBBBBB" or code_pays=="CCCCCC" :
+if code_pays=="BBBBBB" or code_pays=="CCCCCC" :
     bon_sens=False
     
 premier_chiffre=["AAAAAAA","AABABB","AABBAB","AABBBA","ABAABB","ABBAAB","ABBBAA","ABABAB","ABABBA","ABBABA"]
