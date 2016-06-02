@@ -57,7 +57,7 @@ def ean(code_barre):
                      decryptage_total=list([nombre_pays(code_pays1)]+decryptage1+decryptage2)
                 else:  
                     if  (code_pays1 =="BBBBBB" or code_pays1 =="CCCCCC") and (code_pays2 !="BBBBBB" and code_pays2 !="CCCCCC") :
-                        decryptage_total=list([nombre_pays(code_pays2)]+decryptage1+decryptage2)
+                        decryptage_total=list(decryptage1+decryptage2+[nombre_pays(code_pays2)])
                         decryptage_total.reverse()
                     else :
                         print("ERROR: Probleme code barre Pays")
