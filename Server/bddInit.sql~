@@ -1,0 +1,27 @@
+CREATE TABLE Elem_connu (
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    code_barres VARCHAR(40) NOT NULL,
+    nom VARCHAR(40) NOT NULL,
+	descriptionn TEXT,
+	image_adress TEXT, 
+    PRIMARY KEY (id)
+)
+ENGINE=INNODB;
+
+CREATE TABLE Elem_frigo (
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    code_barres VARCHAR(40) NOT NULL,
+    nb_elem SMALLINT UNSIGNED NOT NULL,
+    date_peremp DATE,
+    date_entree DATE,
+    PRIMARY KEY (id)
+)
+ENGINE=INNODB;
+
+CREATE TABLE Liste_course (
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    code_barres VARCHAR(40) NOT NULL,
+    nb_elem SMALLINT UNSIGNED NOT NULL,
+    PRIMARY KEY (id)
+)
+ENGINE=INNODB;
