@@ -40,13 +40,13 @@ def Authenticate():
      
 @app.route("/")
 def hello():
-    return "It's working !!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	return "It's working !!!!!!!!!!!!!!!!!!!!!!!!!!!"
     
-#@app.route("/detecte")
-#def detecte():
-    #codeBarres = requete.detection(5449000000996)
- 	#return codeBarres[0]+codeBarres[1]+codeBarres[2]
+@app.route("/detecte/")
+def detecte():
+    codeBarres = requete.detection("5449000000996")
+    return codeBarres[0]+codeBarres[1]+codeBarres[2]
  	
 if __name__ == "__main__":
-    app.run(host="192.168.1.38", port=int("80"))
+    app.run(debug=True)
 
