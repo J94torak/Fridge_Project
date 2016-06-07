@@ -42,8 +42,8 @@ def recette(n, liste):
 			soup = BeautifulSoup(''.join(r))
 			#soup = BeautifulSoup(r, 'html.parser')
 			print recette.url
-			print soup.findAll('class')
-				#print span.contents[0]
+			for span in soup.findAll('span', itemprop ="ingredients"):
+				print span.contents[0]
 		
 def detection(n):
 
