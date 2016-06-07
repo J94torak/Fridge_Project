@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from BeautifulSoup import BeautifulSoup
 import requests 
 import re 
 
@@ -13,45 +13,37 @@ def ingredients(n,plat):
 	ingre = {'aqt': liste, 'dt' : plat}
 	r = requests.get("http://www.marmiton.org/recettes/recherche.aspx/get", params=ingre)
 	k = r.text
-	#soup = BeautifulSoup(''.join(k))
-	soup = BeautifulSoup(k, 'html.parser')
+	soup = BeautifulSoup(''.join(k))
+	#soup = BeautifulSoup(k, 'html.parser')
 	liste_recette = {}
 	i =0
 	while i<9:
 	
 		sponso = "ctl00_cphMainContent_m_ctrlSearchEngine_m_ctrlSearchListDisplay_rptResultSearch_ctl0"+str(i)+"_m_panelResul"
 		rsponso =  soup.find('div', id =sponso)
-		if rsponso['class'] != [u'm_item', u'recette_sponso']:
+		if rsponso['class'] != 'm_item recette_sponso':
 			m = "ctl00_cphMainContent_m_ctrlSearchEngine_m_ctrlSearchListDisplay_rptResultSearch_ctl0"+str(i)+"_m_linkTitle"
 			recettes = soup.find('a', id =m)
-			print recettes['title']
 			liste_recette[recettes['title']] = recettes['href']
 		i+=1
 	return liste_recette
+
 
 def affiche(liste):
 	for k in liste.keys():
 	     	print(k)
 
 def recette(n, liste):
-	j =u'é'
-	l=u'é'
-	#if j == l:
-	#	print j
 	for k in liste.keys():
-		print k
-		print n
 		if n == k:
 			site = "http://www.marmiton.org"+liste[n]
 			recette = requests.get(site)
 			r = recette.text
-			soup = BeautifulSoup(r, 'html.parser')
+			soup = BeautifulSoup(''.join(r))
+			#soup = BeautifulSoup(r, 'html.parser')
 			print recette.url
-			ingredients =soup.find('span',itemprop="ingredients")
-			print ingredients.contents
-			#for span in soup.findAll('span',itemprop="ingredients"):
-			#	print span.contents[0]
-			#print soup.findAll('span',itemprop="ingredients")
+			print soup.findAll('class')
+				#print span.contents[0]
 		
 def detection(n):
 
