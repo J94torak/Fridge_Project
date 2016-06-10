@@ -1,6 +1,6 @@
 #!/usr/bin/python2.7
 # -*- coding: utf-8 -*-
-import requete
+import Recette
 import Produit
 
 
@@ -19,7 +19,7 @@ import Produit
 liste =["tomate","salade","concombre","citron","thon","basilic frais"]
 plat ="entree"
 
-recettes = requete.Recettes(liste,plat)
+recettes = Recette.Recettes(liste,plat)
 recettes.choix()
 recettes.aff_choix()
 choix_recette ="Salade d'été d'Elvire"
