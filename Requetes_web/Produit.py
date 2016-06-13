@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import requests 
-import re 
+import shutil
 
 class Produit:
 
@@ -24,3 +24,12 @@ class Produit:
 		c = soup.find('td', property="food:energyPer100g")
 		self.calories = c.contents[0] + " " + c.contents[2] + " Pour 100g"
 		
+		
+		balise = soup.find('meta', property="og:image")
+		url = balise['content']
+		response = requests.get(url)
+		nom_image = '/Users/Clemence/git/Fridge_Project/Requetes_web/Pictures/'+self.codebarre + '.png'
+		if response.status_code == 200:
+			f = open(nom_image, 'wb')
+			f.write(response.content)
+			f.close()
