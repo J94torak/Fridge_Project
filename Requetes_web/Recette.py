@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import requests 
-import re 
 
 class Recettes:
 
@@ -26,12 +25,15 @@ class Recettes:
 		soup = BeautifulSoup(k, 'html.parser')
 		liste_recette = {}
 		i =0
-		while i<9:
-		
-			sponso = "ctl00_cphMainContent_m_ctrlSearchEngine_m_ctrlSearchListDisplay_rptResultSearch_ctl0"+str(i)+"_m_panelResul"
+		while i<12:
+			if i<10:
+				s = "ctl00_cphMainContent_m_ctrlSearchEngine_m_ctrlSearchListDisplay_rptResultSearch_ctl0"
+			else:
+				s = "ctl00_cphMainContent_m_ctrlSearchEngine_m_ctrlSearchListDisplay_rptResultSearch_ctl"
+			sponso = s +str(i)+"_m_panelResul"
 			rsponso =  soup.find('div', id =sponso)
 			if rsponso['class'] != ['m_item','recette_sponso']:
-				m = "ctl00_cphMainContent_m_ctrlSearchEngine_m_ctrlSearchListDisplay_rptResultSearch_ctl0"+str(i)+"_m_linkTitle"
+				m = s+str(i)+"_m_linkTitle"
 				recettes = soup.find('a', id =m)
 				self.recettes[recettes['title']] = recettes['href']
 			i+=1
