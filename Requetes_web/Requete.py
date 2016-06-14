@@ -41,7 +41,8 @@ class Produit:
             nom_image = '/Users/Clemence/git/Fridge_Project/Requetes_web/Pictures/'+self.codebarre + extension
             f = open(nom_image, 'wb')
             f.write(response.content)
-            f.close()<<<<<<< Updated upstream
+            f.close()
+<<<<<<< Updated upstream
             return 1
         
         else :
