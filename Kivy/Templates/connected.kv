@@ -1,0 +1,13 @@
+#:kivy 1.0
+
+<Connected>:
+	id: connectedScreen
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			text: "You are now connected"
+			font_size: 32
+		Button:
+			text: "Disconnect"
+			font_size: 24
+			on_press: connectedScreen.disconnect()
