@@ -32,11 +32,16 @@ class Produit:
             balise = soup.find('meta', property="og:image")
             url = balise['content']
             response = requests.get(url)
-            nom_image = '/Users/Clemence/git/Fridge_Project/Requetes_web/Pictures/'+self.codebarre + '.png'
+            ext = url[::-1]
+            indice = ext.find('.')
+            extension = ext[0:indice+1]
+            extension =extension[::-1]
+            print extension
+            print url
+            nom_image = '/Users/Clemence/git/Fridge_Project/Requetes_web/Pictures/'+self.codebarre + extension
             f = open(nom_image, 'wb')
             f.write(response.content)
-            f.close()
-<<<<<<< Updated upstream
+            f.close()<<<<<<< Updated upstream
             return 1
         
         else :
@@ -45,12 +50,16 @@ class Produit:
 
             
 
+############################
+
 =======
-##################################################################################################
->>>>>>> Stashed changes
+######################################################################
+
 class Recettes:
 
-    def __init__(self,ing_frigo,plat):
+    def __init__(self,
+>>>>>>> Stashed changes
+ing_frigo,plat):
         
         self.ing_frigo =ing_frigo
         self.plat =plat
