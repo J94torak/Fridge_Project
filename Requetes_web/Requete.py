@@ -18,21 +18,29 @@ class Produit:
         produit = Produit.site + self.codebarre
         r = requests.get(produit)
         k = r.text
-        soup = BeautifulSoup(k, 'html.parser')
-        self.nom = soup.html.head.title.string 
-        self.description = soup.find('span', itemprop="description").contents[0]
-        c = soup.find('td', property="food:energyPer100g")
-        self.calories = c.contents[0] + " " + c.contents[2] + " Pour 100g"
-        
-        
-        balise = soup.find('meta', property="og:image")
-        url = balise['content']
-        response = requests.get(url)
-        nom_image = '/Users/Clemence/git/Fridge_Project/Requetes_web/Pictures/'+self.codebarre + '.png'
-        if response.status_code == 200:
+        soup = BeautifulSoup(k, 'html.parser') 
+        if soup.html.head.title.string != 'Erreur':
+            #NOM DESCRIPTION CALORIES DU PRODUIT
+            self.nom = soup.html.head.title.string
+            self.description = soup.find('span', itemprop="description").contents[0]
+            c = soup.find('td', property="food:energyPer100g")
+            self.calories = c.contents[0] + " " + c.contents[2] + " Pour 100g"
+            
+            #IMAGE DU PRODUIT
+            balise = soup.find('meta', property="og:image")
+            url = balise['content']
+            response = requests.get(url)
+            nom_image = '/Users/Clemence/git/Fridge_Project/Requetes_web/Pictures/'+self.codebarre + '.png'
             f = open(nom_image, 'wb')
             f.write(response.content)
             f.close()
+            return 1
+        
+        else :
+            print "Code barre invalide "
+            return 0
+
+            
 
 class Recettes:
 
