@@ -14,7 +14,7 @@ class Produit:
         self.nom = ""
         self.description =""
         self.calories = ""
-        
+        self.image= ""
         
     def detection(self):
         produit = Produit.site + self.codebarre
@@ -32,35 +32,26 @@ class Produit:
             balise = soup.find('meta', property="og:image")
             url = balise['content']
             response = requests.get(url)
-            ext = url[::-1]
-            indice = ext.find('.')
-            extension = ext[0:indice+1]
-            extension =extension[::-1]
-            print extension
-            print url
-            nom_image = '/Users/Clemence/git/Fridge_Project/Requetes_web/Pictures/'+self.codebarre + extension
+            #extension
+            url =url[::-1]
+            indice = url.find('.')
+            extension = url[0:indice+1]
+            ext =extension[::-1]
+            nom_image = "../Requetes_web/Pictures/"+self.codebarre + ext
+            self.image=self.codebarre + ext
             f = open(nom_image, 'wb')
             f.write(response.content)
             f.close()
-<<<<<<< Updated upstream
             return 1
         
         else :
             print "Code barre invalide "
             return 0
 
-            
-
-############################
-
-=======
-######################################################################
-
+##########################################################################################
 class Recettes:
 
-    def __init__(self,
->>>>>>> Stashed changes
-ing_frigo,plat):
+    def __init__(self,ing_frigo,plat):
         
         self.ing_frigo =ing_frigo
         self.plat =plat
