@@ -5,7 +5,7 @@ import Produit
 import Requete
 
 produit1 = Requete.Produit("20056124")
-produit2 = Requete.Produit("3254560045217")
+produit2 = Requete.Produit("3274080005003")
   
 valide = produit2.detection()
 if valide ==1:
