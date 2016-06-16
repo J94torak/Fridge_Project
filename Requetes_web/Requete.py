@@ -26,27 +26,32 @@ class Produit:
             self.nom = soup.html.head.title.string
             self.description = soup.find('span', itemprop="description").contents[0]
             c = soup.find('td', property="food:energyPer100g")
-            self.calories = c.contents[0] + " " + c.contents[2] + " Pour 100g"
-            
+            if c != None:
+                self.calories = c.contents[0] + " " + c.contents[2] + " Pour 100g"
+            else: 
+                self.calories ="Calories inconnu"
             #IMAGE DU PRODUIT
             balise = soup.find('meta', property="og:image")
-            url = balise['content']
-            response = requests.get(url)
-            #extension
-            url =url[::-1]
-            indice = url.find('.')
-            extension = url[0:indice+1]
-            ext =extension[::-1]
-            nom_image = "../Requetes_web/Pictures/"+self.codebarre + ext
-            self.image=self.codebarre + ext
-            f = open(nom_image, 'wb')
-            f.write(response.content)
-            f.close()
+            if balise != None:
+                url = balise['content']
+                response = requests.get(url)
+                #extension
+                url =url[::-1]
+                indice = url.find('.')
+                extension = url[0:indice+1]
+                ext =extension[::-1]
+                nom_image = "../Requetes_web/Pictures/"+self.codebarre + ext
+                self.image=self.codebarre + ext
+                f = open(nom_image, 'wb')
+                f.write(response.content)
+                f.close()
+            else :
+                print "Image inconnu"
             return 1
-        
         else :
             print "Code barre invalide "
             return 0
+        
 
 ##########################################################################################
 class Recettes:
@@ -79,10 +84,13 @@ class Recettes:
                 s = "ctl00_cphMainContent_m_ctrlSearchEngine_m_ctrlSearchListDisplay_rptResultSearch_ctl"
             sponso = s +str(i)+"_m_panelResul"
             rsponso =  soup.find('div', id =sponso)
-            if rsponso['class'] != ['m_item','recette_sponso']:
-                m = s+str(i)+"_m_linkTitle"
-                recettes = soup.find('a', id =m)
-                self.recettes[recettes['title']] = recettes['href']
+            if rsponso !=None:
+                if rsponso['class'] == ['m_item','recette_classique']:
+                    m = s+str(i)+"_m_linkTitle"
+                    recettes = soup.find('a', id =m)
+                    self.recettes[recettes['title']] = recettes['href']
+            else :
+                print "Aucune recette trouvée"
             i+=1
     
     def ingredients(self,choix_recette):
@@ -96,10 +104,11 @@ class Recettes:
                 #soup = BeautifulSoup(''.join(r))
                 soup = BeautifulSoup(r, 'html.parser')
                 i = soup.find('div', class_ ="m_content_recette_ingredients m_avec_substitution")
-                 
-                 
-                for child in i.strings:
-                    self.ing_recette += child
+                if i != None:
+                    for child in i.strings:
+                        self.ing_recette += child
+                else :
+                    print "Ingredients introuvable"
                  
                 return self.ing_recette
             
